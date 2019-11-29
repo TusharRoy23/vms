@@ -14,10 +14,10 @@ import BodyParser from 'body-parser';
 
 const session = require("express-session");
 
-const multer = require("multer");
-const gm = require("gm").subClass({
-    imageMagick: true
-});
+// const multer = require("multer");
+// const gm = require("gm").subClass({
+//     imageMagick: true
+// });
 
 Mongoose.connect(config.databaseUrl, { useNewUrlParser: true });
 

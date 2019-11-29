@@ -18,8 +18,10 @@
                 "@validators": "./server/validator",
                 "@controllers" : "./server/controller",
                 "@model": "./server/model",
-                "@JSassets":"./server/public",
-                "@middleware": "./server/middleware"
+                "@assets": "./client/assets",
+                // "@containers": "./client/containers",
+                "@navbar": "./client/nav.js"
+                // "@middleware": "./server/middleware"
             }
         }]
     ]

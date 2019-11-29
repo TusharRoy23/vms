@@ -27,19 +27,27 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/,
+                test: /\.scss$/,
                 use: [
-                    MiniExtracCssPlugin.loader,
-                    'css-loader'
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'sass-loader'
+                    }
                 ]
+            },
+            { 
+                test: /\.(eot|woff|woff2|ttf|svg|png|jpe?g|gif)(\?\S*)?$/,
+                use: "url-loader?limit=100000"
             }
         ]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new VueLoaderPlugin(),
-        new MiniExtracCssPlugin({
-            filename: 'app.css'
-        })
+        new VueLoaderPlugin()
     ]
 };
