@@ -1,8 +1,16 @@
 <template>
   <AppHeaderDropdown right no-caret>
     <template slot="header">
+
       <img
+        v-if="getUserInfo.userPhoto"
         :src="'images/'+getUserInfo.userPhoto"
+        class="img-avatar"
+        :alt="getUserInfo.userName" />
+
+      <img
+        v-else
+        :src="'images/noImage.jpg'"
         class="img-avatar"
         :alt="getUserInfo.userName" />
     </template>

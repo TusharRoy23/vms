@@ -24,11 +24,6 @@ export default {
           icon: 'fa fa-cubes'
         },
         {
-          name: 'Item Unit List',
-          url: '/settings/item-unit-list',
-          icon: 'fa fa-calculator'
-        },
-        {
           name: 'Vehicle Category',
           url: '/settings/vehicle-category',
           icon: 'fa fa-cube'

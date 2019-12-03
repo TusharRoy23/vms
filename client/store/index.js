@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import auth from './auth';
 import profile from './profile';
-// import category from './category';
+import category from './category';
 // import subcategory from './subcategory';
 // import furcategory from './furcategory';
 // import brand from './brand';
@@ -18,7 +18,7 @@ export default new Vuex.Store({
     modules: {
         auth,
         profile,
-        // category,
+        category,
         // subcategory,
         // furcategory,
         // brand,

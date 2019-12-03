@@ -105,5 +105,58 @@ profileRouter.post('/profileImageUpdate', upload, async (req, res) => {
     }
 });
 
+profileRouter.post('/removeProfileImage', async (req, res) => {
+  if (req.session.userId){
+      const fs = require('fs');
+
+      const folderPath = uploadFolder+'/'+req.body.file;
+
+      fs.access(folderPath, fs.F_OK, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        else{
+          fs.unlinkSync(uploadFolder + '/' + req.body.file);
+          
+          var update = {
+            userPhoto:''
+          };
+
+          User.findOneAndUpdate(
+            {_id:req.session.userId},
+            update, { new:true }, (err, result) => {
+              if (!err && result) {
+                res.send({
+                  status: true,
+                  msg:'Removed'
+                });
+              }
+              else{
+                res.send({
+                  status: false
+                });
+              }
+            });
+        }
+      });
+
+      // if (fs.existsSync(uploadFolder+'/'+req.body.file)){
+        
+      // }
+      // else{
+      //   res.send({
+      //     status: false
+      // });
+      // }
+  }
+  else{
+      res.send({
+        status: false,
+        msg:'User not found.'
+      });
+  }
+});
+
 
 export default profileRouter;

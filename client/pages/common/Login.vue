@@ -7,7 +7,7 @@
                         <b-card-group>
                             <b-card no-body class="p-4">
                             <b-card-body>
-                                <b-form @submit="submitTest">
+                                <b-form @submit="getLogin">
                                     <h1>Login</h1>
                                     <p class="text-muted">Sign In to your account</p>
                                     <b-input-group class="mb-3">
@@ -42,8 +42,59 @@
                             <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
                             <b-card-body class="text-center">
                                 <div>
-                                <h2>Sign up</h2>
-                                
+                                    <h2>Sign up</h2>
+                                    <b-form @submit="register">
+                                        
+                                            <b-form-group>
+                                                <label for="company">Full Name</label>
+                                                <form-input 
+                                                    type="text"
+                                                    :value="model.username"
+                                                    name="username"
+                                                    v-model="model.username"
+                                                    v-validate="'required'"
+                                                    placeholder="Enter your full name"
+                                                    :error="errors.first('username')"
+                                                />
+                                            </b-form-group>
+                                            <b-form-group>
+                                                <label for="vat">E-mail</label>
+                                                <form-input 
+                                                    type="email"
+                                                    :value="model.email"
+                                                    name="email"
+                                                    v-model="model.email"
+                                                    v-validate="'required'"
+                                                    placeholder="example@mail.com"
+                                                    :error="errors.first('email')"
+                                                />
+                                            </b-form-group>
+                                            <b-form-group>
+                                                <label for="street">Password</label>
+                                                <form-input 
+                                                    type="password"
+                                                    :value="model.password"
+                                                    name="password"
+                                                    v-model="model.password"
+                                                    v-validate="'required'"
+                                                    placeholder="Enter your password"
+                                                    :error="errors.first('password')"
+                                                />
+                                            </b-form-group>
+                                            
+                                            <b-form-group>
+                                                <label for="country"></label>
+                                                <btn 
+                                                    type="submit" 
+                                                    size="lg" 
+                                                    :variant="primary"
+                                                    label="Update"
+                                                    :disabled="loading"
+                                                    :loading="loading"
+                                                    class="px-4"
+                                                />
+                                            </b-form-group>
+                                    </b-form>
                                 </div>
                             </b-card-body>
                             </b-card>
@@ -56,7 +107,7 @@
 </template>
 <script>
 import formMixin from '@client/mixins/form';
-import { POST_LOGIN, POST_LOGOUT, GET_USER_INFO } from '@store/auth/actions';
+import { POST_LOGIN, POST_LOGOUT, GET_USER_INFO, POST_REGISTER } from '@store/auth/actions';
 
 export default {
     name: 'Login',
@@ -65,7 +116,8 @@ export default {
         return {
             model: {
                 username:'',
-                password:''
+                password:'',
+                email: ''
             },
             error: {
                 username: '',
@@ -74,7 +126,7 @@ export default {
         }
     },
     methods: {
-        submitTest (e) {
+        getLogin (e) {
             e.preventDefault();
             this.error.username = "";
             this.error.password = "";
@@ -101,6 +153,33 @@ export default {
                 })
                 .catch(error => {
                   this.toggleLoading()
+                    Object.keys(error.response.data).forEach(field => {
+                        this.errors.add({
+                            field,
+                            msg: error.response.data[field]
+                        });
+                    });
+                });
+            })
+        },
+        register(e) {
+            e.preventDefault()
+            this.$validator.validate().then(isValid => {
+                if (!isValid) {
+                    return 
+                }
+
+                this.toggleLoading()
+                this.$store.dispatch(POST_REGISTER, this.model)
+                .then((response) => {
+                    this.toggleLoading()
+                    console.log(response.data)
+                    // this.setAuth(response.data)
+                    // this.$router.push('/dashboard');
+                    // location.reload();
+                })
+                .catch(error => {
+                    this.toggleLoading()
                     Object.keys(error.response.data).forEach(field => {
                         this.errors.add({
                             field,

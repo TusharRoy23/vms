@@ -46,7 +46,7 @@ app.listen(3000, () => {
     console.log('server successfully started !');
 });
 
-global.uploadFolder = path.resolve(__dirname, '../../uploads');
+global.uploadFolder = path.resolve(__dirname, 'public/images');
 
 app.use(v1Router);
 

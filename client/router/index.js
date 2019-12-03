@@ -7,6 +7,9 @@ import Dashboard from '@pages/dashboard/Dashboard.vue';
 import DefaultContainer from '@pages/DefaultContainer.vue';
 import Profile from '@pages/settings/Profile.vue';
 
+import Item from '@pages/item/Item.vue';
+import Category from '@pages/category/Category.vue';
+
 Vue.use(Router);
 
 export default new Router({
@@ -33,6 +36,31 @@ export default new Router({
                     path: 'profile-settings',
                     name: 'Profile Settings',
                     component: Profile
+                },
+                {
+                    path: 'settings',
+                    redirect: '',
+                    name: 'Settings',
+                    component: {
+                        render (c) { return c('router-view'); }
+                    },
+                    children: [
+                        {
+                            path: 'user-settings',
+                            name: 'user list',
+                            component: Item
+                        },
+                        {
+                            path: 'item-list',
+                            name: 'Item List',
+                            component: Item
+                        },
+                        {
+                            path: 'vehicle-category',
+                            name: 'Vehicle Category',
+                            component: Category
+                        }
+                    ]
                 }
             ]
         }
