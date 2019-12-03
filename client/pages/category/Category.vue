@@ -73,19 +73,28 @@
                             <tr v-for="(category, index) in categoryList" :key="index">
                                 <td class="text-center">{{index + 1}}</td>
                                 <td class="text-center">
-                                    <span v-if="!editMode">
+                                    <span :id="'name-'+category._id">
                                         {{category.categoryName}}
                                     </span>
-                                    <span v-else>
+                                    <span :id="'inputF-'+category._id" style="display:none">
                                         <input type="text" class="form-control" :id="'ref-'+category._id" :value="category.categoryName">
+                                        <p :id="'msg-'+category._id" style="display: none; color: #ff7979">
+                                            Value Required !
+                                        </p>
                                     </span>
                                 </td>
                                 <td class="text-center">
                                     <b-col sm xs="12" class="text-center mt-3">
-                                        <b-button variant="primary" class="btn-pill" @click="edit(category._id)">
-                                            <i class="fa fa-pencil" v-if="!editMode"></i>
-                                            <i class="fa fa-close" v-else></i>
+                                        <b-button variant="primary" class="btn-pill" @click="edit(category._id)" :id="'edit-'+category._id">
+                                            <i class="fa fa-pencil"></i>                                   
                                         </b-button>
+                                        <b-button variant="success" style="display:none" class="btn-pill" @click="save(category._id)" :id="'save-'+category._id">
+                                            <i class="fa fa-check"></i>                                   
+                                        </b-button>
+                                        <b-button variant="danger" style="display:none" class="btn-pill" @click="editClose(category._id)" :id="'close-'+category._id">
+                                            <i class="fa fa-close"></i>                                   
+                                        </b-button>
+                                        
                                         <b-button variant="success" class="btn-pill" @click="publish(category._id, category.status)">
                                             <i class="fa fa-lock" v-if="category.status"></i>
                                             <i class="fa fa-unlock" v-else></i>
@@ -119,7 +128,7 @@ export default {
             dismissSecs: 5,
             dismissCountDown: 0,
             varient: 'success',
-            editMode: false
+            editMode: {}
         }
     },
     methods: {
@@ -144,15 +153,38 @@ export default {
             })
         },
         edit(id) {
-            if (!this.editMode) {
-                this.editMode = true
+            this.$nextTick(function() {
+                document.getElementById('name-'+id).style.display = document.getElementById('edit-'+id).style.display ="none";
+                document.getElementById('inputF-'+id).style.display = document.getElementById('close-'+id).style.display = document.getElementById('save-'+id).style.display = "inline";
+                document.getElementById('ref-'+id).focus();
+            }.bind(this))
+        },
+        editClose (id){
+            this.$nextTick(function() {
+                document.getElementById('close-'+id).style.display = document.getElementById('save-'+id).style.display = document.getElementById('inputF-'+id).style.display = "none";
+                document.getElementById('name-'+id).style.display = document.getElementById('edit-'+id).style.display = "inline";
+            }.bind(this));
+        },
+        save (id) {
+            var categoryName = document.getElementById('ref-'+id).value;
+            if (categoryName) {
+                this.toggleLoading()
+                this.$store.dispatch(UPDATE_CATEGORY, {categoryName, id})
+                .then((response) => {
+                    
+                    if (response.data) {
+                        this.getCategoryList();
+                        this.editClose(id);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+                this.toggleLoading();
             }
-            else
-                this.editMode = false
-        
-            // this.$nextTick(function() {
-            //     document.getElementById('ref-'+id).focus();
-            // }.bind(this))
+            else{
+                document.getElementById('msg-'+id).style.display = "inline";
+            }
         },
         publish(id, status) {
             this.$store.dispatch(UPDATE_STATUS, {id, status})

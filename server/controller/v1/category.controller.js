@@ -32,14 +32,13 @@ const updateStatus = async (req, res) => {
 
 const updateCategory = async (req, res) => {
     if (req.session.userId) {
-        
+        console.log(req.body);
         const update = {
-            categoryName: req.body.categoryName,
-            status: req.body.status
+            categoryName: req.body.categoryName
         };
 
         const category = await Category.findOneAndUpdate(
-            {_id:req.body.cat_id}, update, { new: true }
+            {_id:req.body.id}, update, { new: true }
         );
 
         res.status(201).json(category);

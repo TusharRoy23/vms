@@ -38,30 +38,41 @@ export default new Router({
                     component: Profile
                 },
                 {
-                    path: 'settings',
-                    redirect: '',
-                    name: 'Settings',
-                    component: {
-                        render (c) { return c('router-view'); }
-                    },
-                    children: [
-                        {
-                            path: 'user-settings',
-                            name: 'user list',
-                            component: Item
-                        },
-                        {
-                            path: 'item-list',
-                            name: 'Item List',
-                            component: Item
-                        },
-                        {
-                            path: 'vehicle-category',
-                            name: 'Vehicle Category',
-                            component: Category
-                        }
-                    ]
-                }
+                    path: 'vehicle-category',
+                    name: 'Vehicle Category',
+                    component: Category
+                },
+                {
+                    path: 'item-list',
+                    name: 'Item List',
+                    component: Item
+                },
+                {
+                    path: 'user-list',
+                    name: 'user List',
+                    component: Item
+                },
+                // {
+                //     path: 'settings',
+                //     redirect: '',
+                //     name: 'Settings',
+                //     component: {
+                //         render (c) { return c('router-view'); }
+                //     },
+                //     children: [
+                //         {
+                //             path: 'user-settings',
+                //             name: 'user list',
+                //             component: Item
+                //         },
+                //         {
+                //             path: 'item-list',
+                //             name: 'Item List',
+                //             component: Item
+                //         },
+                        
+                //     ]
+                // }
             ]
         }
     ]

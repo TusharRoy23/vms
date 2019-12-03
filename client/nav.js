@@ -15,17 +15,17 @@ export default {
       children: [
         {
           name: 'User List',
-          url: '/settings/user-list',
+          url: '/user-list',
           icon: 'icon-people'
         },
         {
           name: 'Item List',
-          url: '/settings/item-list',
+          url: '/item-list',
           icon: 'fa fa-cubes'
         },
         {
           name: 'Vehicle Category',
-          url: '/settings/vehicle-category',
+          url: '/vehicle-category',
           icon: 'fa fa-cube'
         }
       ]
